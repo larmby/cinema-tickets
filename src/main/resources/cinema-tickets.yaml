@@ -82,9 +82,9 @@ components:
       properties:
         type:
           $ref: "#/components/schemas/TicketType"
-        count:
+        ticketCount:
           type: integer
-          format: int64
+          format: int32
           minimum: 0
           nullable: false
           examples: [0, 1, 2]
@@ -99,14 +99,14 @@ components:
           minimum: 1
           nullable: false
           examples: [1234, 6789]
-        tickets:
+        ticketRequests:
           type: array
           nullable: false
           items:
             $ref: "#/components/schemas/TicketRequest"
       required:
         - accountId
-        - tickets
+        - ticketRequests
 
     BookingConfirmation:
       type: object
@@ -118,20 +118,19 @@ components:
           minimum: 1
           nullable: false
           examples: [1234, 6789]
-        seatCount:
+        seatsReserved:
           type: integer
-          format: int64
+          format: int32
           minimum: 1
           maximum: 25
           nullable: false
           examples: [1, 25]
-        totalCost:
+        totalAmount:
           type: number
-          format: double
           minimum: 1
           nullable: false
           examples: [25.99, 51.98]
       required:
         - accountId
-        - seatCount
-        - totalCost
+        - seatsReserved
+        - totalAmount
