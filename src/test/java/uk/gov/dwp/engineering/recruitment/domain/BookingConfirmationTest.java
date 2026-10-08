@@ -16,7 +16,7 @@ class BookingConfirmationTest {
 
   @Test
   void givenExtendedBookingConfirmation_whenGetTotalAmount_thenExpectedValueReturned() {
-    final BookingConfirmation bookingConfirmation = new BookingConfirmation(99L, new BigDecimal("45.00"), 5);
+    final BookingConfirmation bookingConfirmation = new BookingConfirmation(99L, new BigDecimal("45.00"), 5L);
 
     assertEquals(new BigDecimal("45.00"), bookingConfirmation.totalAmount());
   }
