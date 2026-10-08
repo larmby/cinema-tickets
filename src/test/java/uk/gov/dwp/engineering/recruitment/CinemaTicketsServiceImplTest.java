@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import uk.gov.dwp.engineering.recruitment.pricing.TicketCostCalculator;
 import uk.gov.dwp.engineering.recruitment.pricing.TicketPricing;
 import uk.gov.dwp.engineering.recruitment.thirdparty.PaymentService;
 import uk.gov.dwp.engineering.recruitment.thirdparty.SeatReservationService;
@@ -24,6 +25,8 @@ class CinemaTicketsServiceImplTest {
             CHILD, new BigDecimal("17.50"),
             INFANT, BigDecimal.ZERO));
 
+    private final TicketCostCalculator ticketCostCalculator = new TicketCostCalculator(TICKET_PRICING);
+
     @Mock
     private PaymentService mockPaymentService;
 
@@ -34,11 +37,11 @@ class CinemaTicketsServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        cinemaTicketsServiceUnderTest = new CinemaTicketsServiceImpl(mockPaymentService, mockSeatReservationService, TICKET_PRICING);
+        cinemaTicketsServiceUnderTest = new CinemaTicketsServiceImpl(mockPaymentService, mockSeatReservationService, ticketCostCalculator);
     }
 
     @Test
-    void shouldCalculateTotalPrice() {
+    void given() {
 
     }
 }
