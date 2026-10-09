@@ -57,8 +57,7 @@ public class CinemaTicketsServiceImpl implements CinemaTicketsService {
     try {
       reserveSeats(accountId, numberOfSeats);
     } catch (final SeatReservationException e) {
-      LOG.error("Payment of {} taken for account {} but seat reservation failed. "
-          + "Manual reconciliation required.", totalAmount, accountId);
+      LOG.error("Payment of {} taken for account {} but seat reservation failed.", totalAmount, accountId);
       throw e;
     }
 
@@ -78,8 +77,7 @@ public class CinemaTicketsServiceImpl implements CinemaTicketsService {
     try {
       paymentResponse = paymentService.debitAccount(accountId, totalAmount);
     } catch (final RuntimeException e) {
-      LOG.error("Payment request of {} for account {} failed. Payment outcome unknown, "
-          + "manual reconciliation required.", totalAmount, accountId);
+      LOG.error("Payment request of {} for account {} failed. Payment outcome unknown.", totalAmount, accountId);
       throw new PaymentException("Payment request failed for account " + accountId, e);
     }
 
