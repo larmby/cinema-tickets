@@ -1,9 +1,10 @@
 package uk.gov.dwp.engineering.recruitment;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import uk.gov.dwp.engineering.recruitment.domain.BookingConfirmation;
-import uk.gov.dwp.engineering.recruitment.domain.TicketType;
 import uk.gov.dwp.engineering.recruitment.exception.PaymentException;
 import uk.gov.dwp.engineering.recruitment.exception.SeatReservationException;
 import uk.gov.dwp.engineering.recruitment.pricing.TicketCostCalculator;
@@ -20,6 +21,8 @@ import static uk.gov.dwp.engineering.recruitment.domain.TicketType.INFANT;
 
 @Service
 public class CinemaTicketsServiceImpl implements CinemaTicketsService {
+
+  private static final Logger LOG = LoggerFactory.getLogger(CinemaTicketsServiceImpl.class);
 
   private final PaymentService paymentService;
 
@@ -50,7 +53,14 @@ public class CinemaTicketsServiceImpl implements CinemaTicketsService {
     final long numberOfSeats = seatCount(validTicketRequests);
 
     makePayment(accountId, totalAmount);
-    reserveSeats(accountId, numberOfSeats);
+
+    try {
+      reserveSeats(accountId, numberOfSeats);
+    } catch (final SeatReservationException e) {
+      LOG.error("Payment of {} taken for account {} but seat reservation failed. "
+          + "Manual reconciliation required.", totalAmount, accountId);
+      throw e;
+    }
 
     return new BookingConfirmation(accountId, totalAmount, numberOfSeats);
   }
@@ -68,6 +78,8 @@ public class CinemaTicketsServiceImpl implements CinemaTicketsService {
     try {
       paymentResponse = paymentService.debitAccount(accountId, totalAmount);
     } catch (final RuntimeException e) {
+      LOG.error("Payment request of {} for account {} failed. Payment outcome unknown, "
+          + "manual reconciliation required.", totalAmount, accountId);
       throw new PaymentException("Payment request failed for account " + accountId, e);
     }
 

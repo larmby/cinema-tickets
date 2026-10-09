@@ -42,6 +42,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ProblemDetail"
+        "500":
+          description: Unexpected internal error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetail"
+        "502":
+          description: The payment or seat reservation service failed; the booking could not be completed.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetail"
 
 components:
   schemas:
@@ -120,7 +132,7 @@ components:
           examples: [1234, 6789]
         seatsReserved:
           type: integer
-          format: int32
+          format: int64
           minimum: 1
           maximum: 25
           nullable: false
