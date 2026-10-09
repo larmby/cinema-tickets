@@ -29,4 +29,5 @@ class TicketRequestTest {
     assertEquals(2, ticketRequest.ticketCount());
     assertEquals(ADULT, ticketRequest.type());
   }
+
 }
