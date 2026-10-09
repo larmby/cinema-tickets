@@ -78,7 +78,7 @@ public class BookingValidator {
     final long adults = countOf(ticketRequests, ADULT);
 
     if (adults == 0) {
-      throw new InvalidBookingException("Child and infant tickets cannot be purchased without an adult ticket");
+      throw new InvalidBookingException("Child and infant tickets cannot be purchased without purchasing an adult ticket");
     }
 
     if (countOf(ticketRequests, INFANT) > adults) {

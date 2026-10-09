@@ -96,13 +96,13 @@ class BookingValidatorTest {
 
         arguments("child without adult",
             new TicketRequest[] {new TicketRequest(CHILD, 1)},
-            "Child and infant tickets cannot be purchased without an adult ticket"),
+            "Child and infant tickets cannot be purchased without purchasing an adult ticket"),
         arguments("infant without adult",
             new TicketRequest[] {new TicketRequest(INFANT, 1)},
-            "Child and infant tickets cannot be purchased without an adult ticket"),
+            "Child and infant tickets cannot be purchased without purchasing an adult ticket"),
         arguments("zero adults declared alongside a child",
             new TicketRequest[] {new TicketRequest(ADULT, 0), new TicketRequest(CHILD, 1)},
-            "Child and infant tickets cannot be purchased without an adult ticket"),
+            "Child and infant tickets cannot be purchased without purchasing an adult ticket"),
         arguments("more infants than adults",
             new TicketRequest[] {new TicketRequest(ADULT, 1), new TicketRequest(INFANT, 2)},
             "Each infant must be accompanied by their own adult"));
