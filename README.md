@@ -57,3 +57,7 @@ The following requests are rejected. No payment is taken and no seats are reserv
 
 1.  CHILD or INFANT tickets are requested without at least one ADULT ticket.
 2.  More INFANT tickets are requested than ADULT tickets.
+
+## Known issues
+
+1.  `PaymentServiceImpl` and `SeatReservationServiceImpl` read their `@Value` URL field inside the constructor. Spring injects `@Value` fields only after the constructor has run, so the `RestClient` is built with a `null` base URL. This has no effect while the methods are stubs, but would need fixing (by injecting the URL as a constructor parameter) before the real HTTP calls are implemented. These classes have been left unchanged, as the brief treats them as external providers.
