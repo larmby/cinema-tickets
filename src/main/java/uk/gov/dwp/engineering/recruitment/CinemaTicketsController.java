@@ -1,5 +1,7 @@
 package uk.gov.dwp.engineering.recruitment;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +14,8 @@ import uk.gov.dwp.engineering.recruitment.domain.BookingConfirmation;
 @RestController
 @RequestMapping("/cinema")
 public class CinemaTicketsController {
+
+  private static final Logger log = LoggerFactory.getLogger(CinemaTicketsController.class);
 
   /**
    * The Ticket Booking Service.
@@ -29,6 +33,7 @@ public class CinemaTicketsController {
    */
   @PostMapping(value = "/bookings", consumes = "application/json", produces = "application/json")
   public ResponseEntity<BookingConfirmation> makeBooking(@RequestBody Booking ticketBooking) {
+    log.debug("Booking request: accountId: {}, ticketRequests: {}", ticketBooking.accountId(), ticketBooking.ticketRequests());
     return new ResponseEntity<>(cinemaTicketsService.purchaseTickets(ticketBooking.accountId(),
         ticketBooking.ticketRequests()), HttpStatus.CREATED);
   }

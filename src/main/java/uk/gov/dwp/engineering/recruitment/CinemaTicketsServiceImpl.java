@@ -22,7 +22,7 @@ import static uk.gov.dwp.engineering.recruitment.domain.TicketType.INFANT;
 @Service
 public class CinemaTicketsServiceImpl implements CinemaTicketsService {
 
-  private static final Logger LOG = LoggerFactory.getLogger(CinemaTicketsServiceImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(CinemaTicketsServiceImpl.class);
 
   private final PaymentService paymentService;
 
@@ -57,10 +57,11 @@ public class CinemaTicketsServiceImpl implements CinemaTicketsService {
     try {
       reserveSeats(accountId, numberOfSeats);
     } catch (final SeatReservationException e) {
-      LOG.error("Payment of {} taken for account {} but seat reservation failed.", totalAmount, accountId);
+      log.error("Payment of {} taken for account {} but seat reservation failed.", totalAmount, accountId);
       throw e;
     }
 
+    log.debug("Booking successful: Payment of {} taken for account {}, and {} seats were booked.", totalAmount, accountId, numberOfSeats);
     return new BookingConfirmation(accountId, totalAmount, numberOfSeats);
   }
 
@@ -77,7 +78,7 @@ public class CinemaTicketsServiceImpl implements CinemaTicketsService {
     try {
       paymentResponse = paymentService.debitAccount(accountId, totalAmount);
     } catch (final RuntimeException e) {
-      LOG.error("Payment request of {} for account {} failed. Payment outcome unknown.", totalAmount, accountId);
+      log.error("Payment request of {} for account {} failed. Payment outcome unknown.", totalAmount, accountId);
       throw new PaymentException("Payment request failed for account " + accountId, e);
     }
 

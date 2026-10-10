@@ -13,6 +13,12 @@ mvn test              # run all tests
 mvn spring-boot:run   # start the application on port 8080
 ```
 
+To enable debug logging for the application, start it with the `debug` profile:
+
+```shell
+SPRING_PROFILES_ACTIVE=debug mvn spring-boot:run
+```
+
 Example request for a booking for two adults, one child and one infant:
 
 ```shell
@@ -88,7 +94,7 @@ Failed requests are not retried because retrying a payment could charge the acco
 
 ## Assumptions
 
-In addition to the assumptions given in the brief:
+I made the following assumptions in the course of writing the code for the brief.
 
 1.  Infants count towards the 25 ticket limit. The brief states a maximum of 25 _tickets_; an infant ticket is still a ticket even though they are free and not allocated a seat.
 2.  Each infant requires their own adult. Infants sit on an adult's lap and as an adult has only one lap a booking with more infants than adults is rejected.
@@ -114,7 +120,7 @@ The following requests are rejected. No payment is taken and no seats are reserv
 2.  The ticket requests are empty.
 3.  The ticket requests contain a null entry.
 4.  A ticket request has a missing or null ticket type.
-5.  A ticket request has an unknown ticket type, e.g. `PENSIONER`. This is rejected when the JSON is parsed, before reaching the service.
+5.  A ticket request has an unknown ticket type, e.g. `STUDENT`. This is rejected when the JSON is parsed, before reaching the service.
 6.  The request body is malformed JSON or contains values of the wrong type, e.g. `"ticketCount": "two"`. This is also rejected when the JSON is parsed.
 
 ### Ticket counts
